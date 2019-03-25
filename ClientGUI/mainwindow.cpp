@@ -2,9 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QDebug>
-#include <string>
-//std::string password = "";
-//std::string login = "";
+#include <QString>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -21,5 +19,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-//    login = ui->lineEdit->text();
+    QString login = ui->lineEdit->text();
+    QString password = ui->lineEdit_2->text();
 }
