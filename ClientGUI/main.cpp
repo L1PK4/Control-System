@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QLabel>
-std::string password = "";
-std::string login = "";
+
+
 
 int main(int argc, char *argv[])
 {
