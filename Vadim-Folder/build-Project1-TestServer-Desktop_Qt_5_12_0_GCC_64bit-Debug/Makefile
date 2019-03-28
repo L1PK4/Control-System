@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../Project1-TestServer -I. -I/home/vadim/Qt/5.12.0/gcc_64/include -I/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets -I/home/vadim/Qt/5.12.0/gcc_64/include/QtGui -I/home/vadim/Qt/5.12.0/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I/home/vadim/Qt/5.12.0/gcc_64/mkspecs/linux-g++
+INCPATH       = -I../Project1-TestServer -I. -I/home/vadim/Qt/5.12.0/gcc_64/include -I/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets -I/home/vadim/Qt/5.12.0/gcc_64/include/QtGui -I/home/vadim/Qt/5.12.0/gcc_64/include/QtNetwork -I/home/vadim/Qt/5.12.0/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I/home/vadim/Qt/5.12.0/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/vadim/Qt/5.12.0/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -38,7 +38,7 @@ DISTNAME      = Project1-TestServer1.0.0
 DISTDIR = /home/vadim/programs/cpp/QtProject-tcp/Control-System/Vadim-Folder/build-Project1-TestServer-Desktop_Qt_5_12_0_GCC_64bit-Debug/.tmp/Project1-TestServer1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/vadim/Qt/5.12.0/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/home/vadim/Qt/5.12.0/gcc_64/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread   
+LIBS          = $(SUBLIBS) -L/home/vadim/Qt/5.12.0/gcc_64/lib -lQt5Widgets -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -52,11 +52,13 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../Project1-TestServer/main.cpp \
 		../Project1-TestServer/mainwindow.cpp \
-		../Project1-TestServer/server_tcp.cpp moc_mainwindow.cpp
+		../Project1-TestServer/server_tcp.cpp moc_mainwindow.cpp \
+		moc_server_tcp.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		server_tcp.o \
-		moc_mainwindow.o
+		moc_mainwindow.o \
+		moc_server_tcp.o
 DIST          = /home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/common/unix.conf \
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/common/linux.conf \
@@ -229,6 +231,7 @@ DIST          = /home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/qt_config.prf \
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/spec_post.prf \
+		../Project1-TestServer/.qmake.stash \
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/toolchain.prf \
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/default_pre.prf \
@@ -435,6 +438,7 @@ Makefile: ../Project1-TestServer/Project1-TestServer.pro /home/vadim/Qt/5.12.0/g
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/qt_config.prf \
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/toolchain.prf \
 		/home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/default_pre.prf \
@@ -457,6 +461,7 @@ Makefile: ../Project1-TestServer/Project1-TestServer.pro /home/vadim/Qt/5.12.0/g
 		../Project1-TestServer/Project1-TestServer.pro \
 		/home/vadim/Qt/5.12.0/gcc_64/lib/libQt5Widgets.prl \
 		/home/vadim/Qt/5.12.0/gcc_64/lib/libQt5Gui.prl \
+		/home/vadim/Qt/5.12.0/gcc_64/lib/libQt5Network.prl \
 		/home/vadim/Qt/5.12.0/gcc_64/lib/libQt5Core.prl
 	$(QMAKE) -o Makefile ../Project1-TestServer/Project1-TestServer.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 /home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf:
@@ -631,6 +636,7 @@ Makefile: ../Project1-TestServer/Project1-TestServer.pro /home/vadim/Qt/5.12.0/g
 /home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/qt_config.prf:
 /home/vadim/Qt/5.12.0/gcc_64/mkspecs/linux-g++/qmake.conf:
 /home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/exclusive_builds.prf:
 /home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/toolchain.prf:
 /home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/default_pre.prf:
@@ -653,6 +659,7 @@ Makefile: ../Project1-TestServer/Project1-TestServer.pro /home/vadim/Qt/5.12.0/g
 ../Project1-TestServer/Project1-TestServer.pro:
 /home/vadim/Qt/5.12.0/gcc_64/lib/libQt5Widgets.prl:
 /home/vadim/Qt/5.12.0/gcc_64/lib/libQt5Gui.prl:
+/home/vadim/Qt/5.12.0/gcc_64/lib/libQt5Network.prl:
 /home/vadim/Qt/5.12.0/gcc_64/lib/libQt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../Project1-TestServer/Project1-TestServer.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
@@ -703,9 +710,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /home/vadim/Qt/5.12.0/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_server_tcp.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_server_tcp.cpp
 moc_mainwindow.cpp: /home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/QMainWindow \
 		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -815,7 +822,82 @@ moc_mainwindow.cpp: /home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/QMainWindow \
 		../Project1-TestServer/mainwindow.h \
 		moc_predefs.h \
 		/home/vadim/Qt/5.12.0/gcc_64/bin/moc
-	/home/vadim/Qt/5.12.0/gcc_64/bin/moc $(DEFINES) --include /home/vadim/programs/cpp/QtProject-tcp/Control-System/Vadim-Folder/build-Project1-TestServer-Desktop_Qt_5_12_0_GCC_64bit-Debug/moc_predefs.h -I/home/vadim/Qt/5.12.0/gcc_64/mkspecs/linux-g++ -I/home/vadim/programs/cpp/QtProject-tcp/Control-System/Vadim-Folder/Project1-TestServer -I/home/vadim/Qt/5.12.0/gcc_64/include -I/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets -I/home/vadim/Qt/5.12.0/gcc_64/include/QtGui -I/home/vadim/Qt/5.12.0/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Project1-TestServer/mainwindow.h -o moc_mainwindow.cpp
+	/home/vadim/Qt/5.12.0/gcc_64/bin/moc $(DEFINES) --include /home/vadim/programs/cpp/QtProject-tcp/Control-System/Vadim-Folder/build-Project1-TestServer-Desktop_Qt_5_12_0_GCC_64bit-Debug/moc_predefs.h -I/home/vadim/Qt/5.12.0/gcc_64/mkspecs/linux-g++ -I/home/vadim/programs/cpp/QtProject-tcp/Control-System/Vadim-Folder/Project1-TestServer -I/home/vadim/Qt/5.12.0/gcc_64/include -I/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets -I/home/vadim/Qt/5.12.0/gcc_64/include/QtGui -I/home/vadim/Qt/5.12.0/gcc_64/include/QtNetwork -I/home/vadim/Qt/5.12.0/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Project1-TestServer/mainwindow.h -o moc_mainwindow.cpp
+
+moc_server_tcp.cpp: /home/vadim/Qt/5.12.0/gcc_64/include/QtCore/QObject \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qobject.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qnamespace.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qglobal.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qconfig.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qtcore-config.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qsysinfo.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qlogging.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qflags.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qatomic.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qmutex.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qnumeric.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qversiontagging.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstring.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qchar.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qbytearray.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qrefcount.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qarraydata.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstringliteral.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstringview.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qlist.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qalgorithms.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qiterator.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qpair.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstringlist.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qregexp.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qcoreevent.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qmetatype.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qobject_impl.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/QDebug \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qdebug.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qhash.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qmap.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qtextstream.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qiodevice.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qlocale.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qvariant.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qshareddata.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qvector.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qpoint.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qset.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtNetwork/QTcpSocket \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtNetwork/qtcpsocket.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../Project1-TestServer/server_tcp.h \
+		moc_predefs.h \
+		/home/vadim/Qt/5.12.0/gcc_64/bin/moc
+	/home/vadim/Qt/5.12.0/gcc_64/bin/moc $(DEFINES) --include /home/vadim/programs/cpp/QtProject-tcp/Control-System/Vadim-Folder/build-Project1-TestServer-Desktop_Qt_5_12_0_GCC_64bit-Debug/moc_predefs.h -I/home/vadim/Qt/5.12.0/gcc_64/mkspecs/linux-g++ -I/home/vadim/programs/cpp/QtProject-tcp/Control-System/Vadim-Folder/Project1-TestServer -I/home/vadim/Qt/5.12.0/gcc_64/include -I/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets -I/home/vadim/Qt/5.12.0/gcc_64/include/QtGui -I/home/vadim/Qt/5.12.0/gcc_64/include/QtNetwork -I/home/vadim/Qt/5.12.0/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Project1-TestServer/server_tcp.h -o moc_server_tcp.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1061,14 +1143,111 @@ mainwindow.o: ../Project1-TestServer/mainwindow.cpp ../Project1-TestServer/mainw
 		/home/vadim/Qt/5.12.0/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/vadim/Qt/5.12.0/gcc_64/include/QtGui/qicon.h \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/QVariant \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/QApplication \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qapplication.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qeventloop.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtGui/qguiapplication.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtGui/qinputmethod.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/QLabel \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qlabel.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qframe.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/QMenuBar \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qmenubar.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qmenu.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qaction.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qactiongroup.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/QPushButton \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/QStatusBar \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qstatusbar.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/QToolBar \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/qtoolbar.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../Project1-TestServer/mainwindow.cpp
 
-server_tcp.o: ../Project1-TestServer/server_tcp.cpp ../Project1-TestServer/server_tcp.h
+server_tcp.o: ../Project1-TestServer/server_tcp.cpp ../Project1-TestServer/server_tcp.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/QObject \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qobject.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qnamespace.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qglobal.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qconfig.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qtcore-config.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qsysinfo.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qlogging.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qflags.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qatomic.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qmutex.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qnumeric.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qversiontagging.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstring.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qchar.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qbytearray.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qrefcount.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qarraydata.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstringliteral.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstringview.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qlist.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qalgorithms.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qiterator.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qpair.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstringlist.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qregexp.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qcoreevent.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qmetatype.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qobject_impl.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/QDebug \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qdebug.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qhash.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qmap.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qtextstream.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qiodevice.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qlocale.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qvariant.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qshareddata.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qvector.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qpoint.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qset.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtNetwork/QTcpSocket \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtNetwork/qtcpsocket.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		/home/vadim/Qt/5.12.0/gcc_64/include/QtNetwork/qabstractsocket.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o server_tcp.o ../Project1-TestServer/server_tcp.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+
+moc_server_tcp.o: moc_server_tcp.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_server_tcp.o moc_server_tcp.cpp
 
 ####### Install
 
