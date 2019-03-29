@@ -10,6 +10,8 @@ int main(int argc, char *argv[])
     w.show();
     w1.setModal(true);
     w1.exec();
+    w.show();
+
 
     return a.exec();
 }

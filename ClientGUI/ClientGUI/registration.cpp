@@ -37,6 +37,9 @@ void registration::on_pushButton_clicked()
     //
     //
     // - - - - - - - - - - - - -
+
+
+
     bool Accept = login == "admin" && password == "admin";
     if (Accept) {
         reg = true;
